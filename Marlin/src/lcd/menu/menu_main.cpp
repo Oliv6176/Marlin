@@ -29,11 +29,12 @@
 #if HAS_LCD_MENU
 
 #include "menu_item.h"
+#include "../../sd/cardreader.h"
 #include "../../module/temperature.h"
 #include "../../gcode/queue.h"
 #include "../../module/printcounter.h"
 #include "../../module/stepper.h"
-#include "../../sd/cardreader.h"
+
 
 #if HAS_GAMES && DISABLED(LCD_INFO_MENU)
   #include "game/game.h"
@@ -64,8 +65,8 @@
 
 void menu_tune();
 void menu_cancelobject();
-void menu_motion();
 void menu_temperature();
+void menu_motion();
 void menu_configuration();
 
 #if ENABLED(CUSTOM_USER_MENUS)
@@ -138,6 +139,44 @@ void menu_main() {
     #endif
   }
   else {
+
+
+#if BOTH(HAS_ENCODER_WHEEL, SDSUPPORT)
+
+    if (!busy) {
+
+      // *** IF THIS SECTION IS CHANGED, REPRODUCE ABOVE ***
+
+      //
+      // Autostart
+      //
+      #if ENABLED(MENU_ADDAUTOSTART)
+        ACTION_ITEM(MSG_RUN_AUTO_FILES, card.autofile_begin);
+      #endif
+
+      if (card_detected) {
+        if (!card_open) {
+          #if PIN_EXISTS(SD_DETECT)
+            GCODES_ITEM(MSG_CHANGE_MEDIA, PSTR("M21"));
+          #else
+            GCODES_ITEM(MSG_RELEASE_MEDIA, PSTR("M22"));
+          #endif
+          SUBMENU(MSG_MEDIA_MENU, MEDIA_MENU_GATEWAY);
+        }
+      }
+      else {
+        #if PIN_EXISTS(SD_DETECT)
+          ACTION_ITEM(MSG_NO_MEDIA, nullptr);
+        #else
+          GCODES_ITEM(MSG_ATTACH_MEDIA, PSTR("M21"));
+        #endif
+      }
+    }
+
+  #endif // HAS_ENCODER_WHEEL && SDSUPPORT
+
+
+
 
     #if !HAS_ENCODER_WHEEL && ENABLED(SDSUPPORT)
 
@@ -239,39 +278,7 @@ void menu_main() {
       GCODES_ITEM(MSG_SWITCH_PS_ON, PSTR("M80"));
   #endif
 
-  #if BOTH(HAS_ENCODER_WHEEL, SDSUPPORT)
-
-    if (!busy) {
-
-      // *** IF THIS SECTION IS CHANGED, REPRODUCE ABOVE ***
-
-      //
-      // Autostart
-      //
-      #if ENABLED(MENU_ADDAUTOSTART)
-        ACTION_ITEM(MSG_RUN_AUTO_FILES, card.autofile_begin);
-      #endif
-
-      if (card_detected) {
-        if (!card_open) {
-          #if PIN_EXISTS(SD_DETECT)
-            GCODES_ITEM(MSG_CHANGE_MEDIA, PSTR("M21"));
-          #else
-            GCODES_ITEM(MSG_RELEASE_MEDIA, PSTR("M22"));
-          #endif
-          SUBMENU(MSG_MEDIA_MENU, MEDIA_MENU_GATEWAY);
-        }
-      }
-      else {
-        #if PIN_EXISTS(SD_DETECT)
-          ACTION_ITEM(MSG_NO_MEDIA, nullptr);
-        #else
-          GCODES_ITEM(MSG_ATTACH_MEDIA, PSTR("M21"));
-        #endif
-      }
-    }
-
-  #endif // HAS_ENCODER_WHEEL && SDSUPPORT
+  
 
   #if HAS_SERVICE_INTERVALS
     static auto _service_reset = [](const int index) {

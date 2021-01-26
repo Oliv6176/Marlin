@@ -34,14 +34,14 @@ namespace Language_da {
   using namespace Language_en; // Inherit undefined strings from English
 
   constexpr uint8_t    CHARSIZE                            = 2;
-  PROGMEM Language_Str LANGUAGE                            = _UxGT("Danish");
+  PROGMEM Language_Str LANGUAGE                            = _UxGT("Dansk");
 
   PROGMEM Language_Str WELCOME_MSG                         = MACHINE_NAME _UxGT(" er klar");
   PROGMEM Language_Str MSG_MEDIA_INSERTED                  = _UxGT("Kort isat");
   PROGMEM Language_Str MSG_MEDIA_REMOVED                   = _UxGT("Kort fjernet");
   PROGMEM Language_Str MSG_MAIN                            = _UxGT("Menu");
   PROGMEM Language_Str MSG_DISABLE_STEPPERS                = _UxGT("Slå alle steppere fra");
-  PROGMEM Language_Str MSG_AUTO_HOME                       = _UxGT("Auto Home"); // G28
+  PROGMEM Language_Str MSG_AUTO_HOME                       = _UxGT("Gå hjem!"); // G28
   PROGMEM Language_Str MSG_LEVEL_BED_WAITING               = _UxGT("Klik når du er klar");
   PROGMEM Language_Str MSG_LEVEL_BED_NEXT_POINT            = _UxGT("Næste punkt");
   PROGMEM Language_Str MSG_LEVEL_BED_DONE                  = _UxGT("Bed level er færdig!");
