@@ -99,6 +99,7 @@ void probe_offset_wizard_menu() {
 
   ACTION_ITEM(MSG_BUTTON_DONE, []{
     set_offset_and_go_back(calculated_z_offset);
+    queue.inject_P(PSTR("M500"));
     current_position.z = z_offset_ref;  // Set Z to z_offset_ref, as we can expect it is at probe height
     sync_plan_position();
     z_clearance_move();                 // Raise Z as if it was homed
