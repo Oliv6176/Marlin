@@ -37,10 +37,10 @@ namespace Language_da {
   PROGMEM Language_Str LANGUAGE                            = _UxGT("Dansk");
 
   PROGMEM Language_Str WELCOME_MSG                         = MACHINE_NAME _UxGT(" er klar");
-  PROGMEM Language_Str MSG_MEDIA_INSERTED                  = _UxGT("Kort isat");
+  PROGMEM Language_Str MSG_MEDIA_INSERTED                  = _UxGT("Kort indsat");
   PROGMEM Language_Str MSG_MEDIA_REMOVED                   = _UxGT("Kort fjernet");
   PROGMEM Language_Str MSG_MAIN                            = _UxGT("Menu");
-  PROGMEM Language_Str MSG_DISABLE_STEPPERS                = _UxGT("Slå alle steppere fra");
+  PROGMEM Language_Str MSG_DISABLE_STEPPERS                = _UxGT("Sluk motererne");
   PROGMEM Language_Str MSG_AUTO_HOME                       = _UxGT("Gå hjem!"); // G28
   PROGMEM Language_Str MSG_LEVEL_BED_WAITING               = _UxGT("Klik når du er klar");
   PROGMEM Language_Str MSG_LEVEL_BED_NEXT_POINT            = _UxGT("Næste punkt");
@@ -48,6 +48,16 @@ namespace Language_da {
   PROGMEM Language_Str MSG_SET_HOME_OFFSETS                = _UxGT("Sæt forsk. af home");
   PROGMEM Language_Str MSG_HOME_OFFSETS_APPLIED            = _UxGT("Forsk. er nu aktiv");
   PROGMEM Language_Str MSG_SET_ORIGIN                      = _UxGT("Sæt origin");
+  
+  PROGMEM Language_Str MSG_CONFIGURATION                   = _UxGT("Indstillinger");
+  PROGMEM Language_Str MSG_OUTAGE_RECOVERY                 = _UxGT("Power recovery");
+  
+  PROGMEM Language_Str MSG_GAMES                           = _UxGT("Spil");
+  PROGMEM Language_Str MSG_BRICKOUT                        = _UxGT("Brickout");
+  PROGMEM Language_Str MSG_INVADERS                        = _UxGT("Invaders");
+  PROGMEM Language_Str MSG_SNAKE                           = _UxGT("Snake Classic");
+  PROGMEM Language_Str MSG_MAZE                            = _UxGT("Maze");
+
   #if PREHEAT_COUNT
     PROGMEM Language_Str MSG_PREHEAT_1                     = _UxGT("Forvarm ") PREHEAT_1_LABEL;
     PROGMEM Language_Str MSG_PREHEAT_1_H                   = _UxGT("Forvarm ") PREHEAT_1_LABEL " ~";
@@ -85,8 +95,8 @@ namespace Language_da {
   PROGMEM Language_Str MSG_NOZZLE_N                        = _UxGT("Dyse ~");
 
   PROGMEM Language_Str MSG_BED                             = _UxGT("Plade");
-  PROGMEM Language_Str MSG_FAN_SPEED                       = _UxGT("Blæser hastighed");
-  PROGMEM Language_Str MSG_FAN_SPEED_N                     = _UxGT("Blæser hastighed ~");
+  PROGMEM Language_Str MSG_FAN_SPEED                       = _UxGT("Blæser");
+  PROGMEM Language_Str MSG_FAN_SPEED_N                     = _UxGT("Blæser ~");
   PROGMEM Language_Str MSG_CONTROL                         = _UxGT("Kontrol");
   PROGMEM Language_Str MSG_MIN                             = _UxGT(" \002 Min");
   PROGMEM Language_Str MSG_MAX                             = _UxGT(" \002 Max");

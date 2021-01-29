@@ -35,8 +35,7 @@
 #include "../../module/printcounter.h"
 #include "../../module/stepper.h"
 
-
-#if HAS_GAMES && DISABLED(LCD_INFO_MENU)
+#if HAS_GAMES
   #include "game/game.h"
 #endif
 
@@ -137,45 +136,34 @@ void menu_main() {
     #if ENABLED(CANCEL_OBJECTS) && DISABLED(SLIM_LCD_MENUS)
       SUBMENU(MSG_CANCEL_OBJECT, []{ editable.int8 = -1; ui.goto_screen(menu_cancelobject); });
     #endif
+
+      #if HAS_TEMPERATURE
+    SUBMENU(MSG_TEMPERATURE, menu_temperature);
+  #endif
   }
   else {
 
+    #if BOTH(HAS_ENCODER_WHEEL, SDSUPPORT)
 
-#if BOTH(HAS_ENCODER_WHEEL, SDSUPPORT)
-
-    if (!busy) {
-
-      // *** IF THIS SECTION IS CHANGED, REPRODUCE ABOVE ***
-
-      //
-      // Autostart
-      //
-      #if ENABLED(MENU_ADDAUTOSTART)
+    #if ENABLED(MENU_ADDAUTOSTART)
         ACTION_ITEM(MSG_RUN_AUTO_FILES, card.autofile_begin);
       #endif
 
-      if (card_detected) {
-        if (!card_open) {
-          #if PIN_EXISTS(SD_DETECT)
-            GCODES_ITEM(MSG_CHANGE_MEDIA, PSTR("M21"));
-          #else
-            GCODES_ITEM(MSG_RELEASE_MEDIA, PSTR("M22"));
-          #endif
-          SUBMENU(MSG_MEDIA_MENU, MEDIA_MENU_GATEWAY);
-        }
-      }
-      else {
+        if (!card_detected) {
         #if PIN_EXISTS(SD_DETECT)
           ACTION_ITEM(MSG_NO_MEDIA, nullptr);
         #else
           GCODES_ITEM(MSG_ATTACH_MEDIA, PSTR("M21"));
         #endif
       }
-    }
 
-  #endif // HAS_ENCODER_WHEEL && SDSUPPORT
+    if (card_detected) {
+        if (!card_open) {
+          SUBMENU(MSG_MEDIA_MENU, MEDIA_MENU_GATEWAY);
+        }
+      }
 
-
+    #endif // HAS_ENCODER_WHEEL && SDSUPPORT
 
 
     #if !HAS_ENCODER_WHEEL && ENABLED(SDSUPPORT)
@@ -216,16 +204,36 @@ void menu_main() {
       ACTION_ITEM(MSG_HOST_START_PRINT, host_action_start);
     #endif
 
+  #if HAS_TEMPERATURE
+    SUBMENU(MSG_TEMPERATURE, menu_temperature);
+  #endif
+
     SUBMENU(MSG_MOTION, menu_motion);
+
+    #if BOTH(HAS_ENCODER_WHEEL, SDSUPPORT)
+
+   
+      if (card_detected) {
+        if (!card_open) {
+          #if PIN_EXISTS(SD_DETECT)
+            GCODES_ITEM(MSG_CHANGE_MEDIA, PSTR("M21"));
+          #else
+            GCODES_ITEM(MSG_RELEASE_MEDIA, PSTR("M22"));
+          #endif
+        }
+      }
+    
+    
+
+  #endif // HAS_ENCODER_WHEEL && SDSUPPORT
+
   }
 
   #if HAS_CUTTER
     SUBMENU(MSG_CUTTER(MENU), STICKY_SCREEN(menu_spindle_laser));
   #endif
 
-  #if HAS_TEMPERATURE
-    SUBMENU(MSG_TEMPERATURE, menu_temperature);
-  #endif
+
 
   #if HAS_POWER_MONITOR
     SUBMENU(MSG_POWER_MONITOR, menu_power_monitor);
@@ -239,7 +247,6 @@ void menu_main() {
     if (!busy) SUBMENU(MSG_MMU2_MENU, menu_mmu2);
   #endif
 
-  SUBMENU(MSG_CONFIGURATION, menu_configuration);
 
   #if ENABLED(CUSTOM_USER_MENUS)
     #ifdef CUSTOM_USER_MENU_TITLE
@@ -309,8 +316,8 @@ void menu_main() {
       );
     #endif
   #endif
-
-  #if HAS_GAMES && DISABLED(LCD_INFO_MENU)
+  
+  #if HAS_GAMES
     #if ENABLED(GAMES_EASTER_EGG)
       SKIP_ITEM();
       SKIP_ITEM();
